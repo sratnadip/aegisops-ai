@@ -1,0 +1,7 @@
+image:
+  repository: 585768163469.dkr.ecr.us-east-1.amazonaws.com/order-service
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
