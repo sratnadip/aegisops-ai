@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-ops-service
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: ai-ops-service
+  template:
+    metadata:
+      labels:
+        app: ai-ops-service
+    spec:
+      serviceAccountName: ai-ops-sa
+      containers:
+        - name: ai-ops
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 8000
+          env:
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ai-ops-secrets
+                  key: OPENAI_API_KEY
+

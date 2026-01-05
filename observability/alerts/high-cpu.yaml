@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: high-cpu-alert
+  namespace: monitoring
+spec:
+  groups:
+    - name: order-service-alerts
+      rules:
+        - alert: OrderServiceHighCPU
+          expr: |
+            sum(rate(container_cpu_usage_seconds_total{pod=~"order-service.*"}[1m])) > 0.5
+          for: 1m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High CPU usage on order-service"
+            description: "order-service is consuming high CPU for more than 1 minute"
+
